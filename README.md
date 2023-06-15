@@ -57,8 +57,10 @@ python tMAP-getmismatches.py \
 * `--editfrac` minimum fraction of mismatched reads for beta function; default=0.05.
 * `--minreads` is the minumum number of read coverage of a base required to go into analysis; default=20.
 * `--multimapcutoff` Percent of multimapping reads covering a site to mark as artefact; default=20.
+* (optional flags; to determine differences in mismatch rates between all pairwise comparisons use these)
 * `--exppairs` pairs.txt file from tRAX to perform pairwise comaprisons.
 * `--samples` samples.txt file from tRAX, or custom made as previously described to group biological replicates.
+* (optional flags (in development); to determine which base modification is present based on misincorporation signature)
 * `--predict` (in development) predict which base modification is present based on misincorporation signature. Model built using tRNA sequencing (OTTR-seq) data from various eukaryotic model organisms.
 
 
