@@ -1,6 +1,6 @@
 # tRNA Modification Analysis and Predictions (tMAP)
 
-tMAP is an additional tool to extend the usage of the standard tRAX analysis pipeline. It can be used to determine potential modifcaiton-induced misincorporations from small RNA sequencing data and in some cases provide a probability of associated with a specfic modification.
+getMismatches.py is an additional tool to extend the usage of the standard tRAX analysis pipeline. It can be used to determine potential modifcaiton-induced misincorporations from small RNA sequencing data and in some cases provide a probability of associated with a specfic modification.
 
 ## About
 
@@ -11,12 +11,12 @@ tMAP is an additional tool to extend the usage of the standard tRAX analysis pip
 Dependencies can be installed using conda:
 
 ```bash
-conda env create -f tmap-env.yml
+conda env create -f getmismatch.yml
 ```
 
 ## Input files
 
-tMAP will work with any tRAX generated coverage file or the coverage file generated using this tool (using the --bedcoverage option)
+getmismatch will work with any tRAX generated coverage file
 
 ### Metadata
 
@@ -34,15 +34,15 @@ sample4 b /path/to/sample4.fastq.gz
 ### Activating the environment
 
 ```bash
-conda activate tmap
+conda activate getmismatch
 ```
 
 ### Determining potential sites of base modifications present in tRNAs
 
-The tMAP-confidence-predict.py script can be used to identify potential sites of base modification present in tRNA sequencing data.
+The getMismatches.py script can be used to identify potential sites of base modification present in tRNA sequencing data.
 
 ```bash
-python tMAP-confidence-predict.py --cov <tRAX_coverage_file> --o <output_file_prefix> [(optional) --alpha <mismatch_pseudocounts> --beta <reference_pseudocounts> --editfrac <minumum_edit_fraction> --minreads <minimum_read_coverage> --multimapcutoff <percent_multimap_coverage> --exppairs <pairs.txt> --samples <samples.txt> --org <organism> --predict]
+python getMismatches.py --cov <tRAX_coverage_file> --o <output_file_prefix> [(optional) --alpha <mismatch_pseudocounts> --beta <reference_pseudocounts> --editfrac <minumum_edit_fraction> --minreads <minimum_read_coverage> --multimapcutoff <percent_multimap_coverage> --exppairs <pairs.txt> --samples <samples.txt> --org <organism> --predict]
 ```
 * `--cov` is the path to the tRAX coverage file you want to analyse modifications from; runname-coverage.txt.
 * `--o`  is the prefix for the output files.
