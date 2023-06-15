@@ -415,7 +415,7 @@ if __name__ == '__main__':
     ap.add_argument('--samples', required=True, help='samples.txt file from tRAX to group samples')
     ap.add_argument('--mode', required=True, help='mismatch or mappability; if you want to color the base coverage based on nucleotide misincorporations or read mappability',default='mismatch')
     ap.add_argument('--trnas', required=False, help='tRNA isodecoders of interest', nargs='+', default=[])
-    ap.add_argument('--org', required=True, help='euk, bact, arch, or mito', default='euk')
+    ap.add_argument('--org', required=False, help='euk, bact, arch, or mito', default='euk')
     ap.add_argument('--o', required=True, help='path for output files')
     args = ap.parse_args()
     
