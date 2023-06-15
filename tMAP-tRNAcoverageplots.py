@@ -239,8 +239,8 @@ class tMAPcoverageplots(object):
 
         print("Generating coverage plots for tRNAs of interest...")
 
-        mapDcolors = {'uniquecoverage':'#D3D3D3','multitrnacoverage':'#D3D3D3','multianticodoncoverage':'#D3D3D3','multiaminocoverage':'#D3D3D3', 'coverage':'#D3D3D3'}
-
+        # mapDcolors = {'uniquecoverage':'#D3D3D3','multitrnacoverage':'#D3D3D3','multianticodoncoverage':'#D3D3D3','multiaminocoverage':'#D3D3D3', 'coverage':'#D3D3D3'}
+        mapDcolors = {'uniquecoverage':'#A781BA','multitrnacoverage':'#00BEC4','multianticodoncoverage':'#7cae00','multiaminocoverage':'#f8766d', 'coverage':'#00BFC4'}
         fig, axes = plt.subplots(max(2, len(featurestoplot)),max(2,len(self.conditions)), sharex=False, figsize=(1.875*max(2,len(self.conditions))*2, max(2, len(featurestoplot))*1.2))
         fig.subplots_adjust(hspace=0.6, wspace=0.2)
 
