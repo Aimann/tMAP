@@ -20,9 +20,6 @@ from pathlib import Path
 import warnings
 warnings.filterwarnings('ignore')
 
-
-
-
 class tMAPbedcoverage(object):
 
     def __init__(self, opath, sampleinfo):
@@ -46,8 +43,6 @@ class tMAPbedcoverage(object):
             featureseq = line[1].strip()
             if search('feat', featurename):
                 featureseq = featureseq + 'CCA'
-            elif search('miR', featurename):
-                featureseq = featureseq + 'A'
             else:
                 featureseq = featureseq
 
@@ -423,19 +418,21 @@ class tMAPbedcoverage(object):
 
         print("Generating coverage plots for regions of interest...")
         nucD = {'A':'adenines','C':'cytosines','T':'thymines','G':'guanines'}
-        nucDcolors = {'adenines':'tab:green','cytosines':'tab:blue','thymines':'tab:red','guanines':'tab:orange','deletions':'grey', 'ref':'#D3D3D3'}
-        nucDcolors = {'adenines':'tab:green','cytosines':'tab:blue','thymines':'tab:red','guanines':'tab:orange','deletions':'grey', 'ref':'#D3D3D3'}
+        # nucDcolors = {'adenines':'tab:green','cytosines':'tab:blue','thymines':'tab:red','guanines':'tab:orange','deletions':'grey', 'ref':'#D3D3D3'}
+        nucDcolors = {'adenines':'#7CAE00','cytosines':'#619CFF','thymines':'#F8766D','guanines':'#CD9600','deletions':'grey', 'ref':'#D3D3D3'}
 
         featurestoplot = list(data['Feature'].drop_duplicates())
 
         getfeatlengths = tMAPbedcov.getFeatLengths(data, featurestoplot)
 
+
         # fig, axes = plt.subplots(max(2, len(featurestoplot)),max(2,len(self.conditions)), sharex=False, figsize=(1.875*max(2,len(self.conditions))*2, max(2, len(featurestoplot))*1.2))
         if max(getfeatlengths) > 100:
-            fig, axes = plt.subplots(max(2, len(self.conditions)),max(2,len(featurestoplot)),sharey=False, sharex=False, figsize=(max(2, len(featurestoplot))*5,max(2,len(self.conditions))*1.2), gridspec_kw={'width_ratios': getfeatlengths})
+            fig, axes = plt.subplots(max(2, len(self.conditions)),max(2,len(featurestoplot)),sharey=False, sharex=False, figsize=(max(2, len(featurestoplot))*2,max(2,len(self.conditions))*0.8), gridspec_kw={'width_ratios': getfeatlengths})
         else:
-            fig, axes = plt.subplots(max(2, len(self.conditions)),max(2,len(featurestoplot)),sharey=False, sharex=False, figsize=(max(2, len(featurestoplot))*4,max(2,len(self.conditions))*1.2), gridspec_kw={'width_ratios': getfeatlengths})
-        fig.subplots_adjust(hspace=1, wspace=0.2)
+            fig, axes = plt.subplots(max(2, len(self.conditions)),max(2,len(featurestoplot)),sharey=False, sharex=False, figsize=(max(2, len(featurestoplot))*2,max(2,len(self.conditions))*0.8), gridspec_kw={'width_ratios': getfeatlengths})
+
+        fig.subplots_adjust(hspace=0.8, wspace=0.3)
 
         for qdx, feat in enumerate(featurestoplot):
 
@@ -445,7 +442,7 @@ class tMAPbedcoverage(object):
 
             sprinzl = list(feat_data['position'].drop_duplicates())
             sprinzl_x = {sprin:featurepos for featurepos,sprin in enumerate(sprinzl)}
-            feat_data['xlabel'] = feat_data['position'].astype(str) + ':' + feat_data['actualbase']
+            feat_data['xlabel'] = feat_data['position'].astype(str) + ':' + feat_data['actualbase'].replace('T','U')
             xlabels = list(feat_data['xlabel'].drop_duplicates())
             xticks = [s+0.1 for s in range(len(xlabels))] 
             sprinzl_xlabel = {featurepos:sprin for featurepos,sprin in enumerate(xlabels)}
@@ -462,7 +459,7 @@ class tMAPbedcoverage(object):
                 feat_data_mean_condition = feat_data_mean[feat_data_mean['Sample'] == cond]
 
                 findmax = feat_data_mean_condition['adenines'] + feat_data_mean_condition['thymines'] + feat_data_mean_condition['cytosines'] + feat_data_mean_condition['guanines'] + feat_data_mean_condition['deletions']
-                ymaxval = max(52,round(1.1 * findmax.max()))
+                ymaxval = max(20,round(1.1 * findmax.max()))
 
                 for pos in xorder:
 
@@ -484,30 +481,43 @@ class tMAPbedcoverage(object):
                         axes[idx][qdx].bar(pos, realbasecounts, width=1, linewidth=0,color='#D3D3D3')
 
 
-                axes[idx][qdx].set_title(feat  + ' | ' + cond, fontsize=10, loc='left', pad=2)
+                axes[idx][qdx].set_title(feat.replace('mmu-', '')  + ' | ' + cond, fontsize=8, loc='left', pad=2)
                 axes[idx][qdx].set_xlim(-1, len(xlabels))
                 axes[idx][qdx].set_xticks(xticks)
-                axes[idx][qdx].set_xticklabels(xlabels, fontsize=5, rotation=90, horizontalalignment='center')
+                axes[idx][qdx].set_xticklabels(xlabels, fontsize=3, rotation=90, horizontalalignment='center')
 
                 axes[idx][qdx].set_ylim(0, ymaxval)
                 axes[idx][qdx].set_yticks([0,ymaxval])
-                axes[idx][qdx].set_yticklabels(['0',str(ymaxval)], fontsize=6)
+                axes[idx][qdx].set_yticklabels(['0',str(ymaxval)], fontsize=5)
                 axes[idx][qdx].tick_params(axis='x', which='major', pad=0.5, width=0.25,length=0.25)
 
                 for axis in ['top', 'bottom', 'left', 'right']:
-                        axes[idx][qdx].spines[axis].set_linewidth(0.4)
+                        axes[idx][qdx].spines[axis].set_linewidth(0.2)
+
 
                 nucDrev = {'adenines':'A','cytosines':'C','thymines':'T','guanines':'G','deletions':'Del', 'ref':'Ref'}
+                # legend_elements = []
+                # for nuct in ['adenines', 'thymines', 'cytosines', 'guanines', 'deletions', 'ref']: 
+                #     nucpatch = mpatches.Patch(label=nucDrev.get(nuct), color=nucDcolors.get(nuct))
+                #     legend_elements.append(nucpatch)
+                # # axes[idx][qdx].legend(handles = legend_elements,  loc='center right', bbox_to_anchor=(1.15, 0.5), ncol=1,prop={'size': 4}, frameon=False, columnspacing=0.8)
+                # # if getfeatlengths[qdx] < 10:
+                # #     axes[idx][qdx].legend(handles = legend_elements,  loc='upper right', bbox_to_anchor=(1, 1.175), ncol=6,prop={'size': 4}, frameon=False, columnspacing=0.8)
+                # #     axes[idx][qdx].set_title(feat  + ' | ' + cond, fontsize=10, loc='left', pad=6)
+                # # else:
+                # axes[idx][qdx].legend(handles = legend_elements,  loc='upper right', bbox_to_anchor=(1, 1.325), ncol=3,prop={'size': 4}, frameon=False, columnspacing=0.8)
+
+
                 legend_elements = []
                 for nuct in ['adenines', 'thymines', 'cytosines', 'guanines', 'deletions', 'ref']: 
-                    nucpatch = mpatches.Patch(label=nucDrev.get(nuct), color=nucDcolors.get(nuct))
+                    nucpatch = mpatches.Patch(label=nucDrev.get(nuct).replace('T', 'U'), facecolor=nucDcolors.get(nuct), edgecolor='black', linewidth=0.05)
                     legend_elements.append(nucpatch)
-                # axes[idx][qdx].legend(handles = legend_elements,  loc='center right', bbox_to_anchor=(1.15, 0.5), ncol=1,prop={'size': 4}, frameon=False, columnspacing=0.8)
-                if getfeatlengths[qdx] < 50:
-                    axes[idx][qdx].legend(handles = legend_elements,  loc='upper right', bbox_to_anchor=(1, 1.175), ncol=6,prop={'size': 4}, frameon=False, columnspacing=0.8)
-                    axes[idx][qdx].set_title(feat  + ' | ' + cond, fontsize=10, loc='left', pad=6)
+                if getfeatlengths[qdx] < 25:
+                    axes[idx][qdx].legend(handles = legend_elements,  loc='upper right', bbox_to_anchor=(1, 1.485), ncol=6,prop={'size': 3.8}, frameon=False, columnspacing=0.2, handletextpad=0.3)
+                    axes[idx][qdx].set_title(feat.replace('mmu-','')  + ' | ' + cond, fontsize=6, loc='left', pad=2)
                 else:
-                    axes[idx][qdx].legend(handles = legend_elements,  loc='upper right', bbox_to_anchor=(1, 1.325), ncol=3,prop={'size': 4}, frameon=False, columnspacing=0.8)
+                    axes[idx][qdx].legend(handles = legend_elements,  loc='upper right', bbox_to_anchor=(1, 1.415), ncol=3,prop={'size': 4}, frameon=False, columnspacing=0.5, handletextpad=0.3)
+
         # plt.tight_layout()
         plt.savefig(opath + args.o + '-mismatchcoverage.pdf', bbox_inches='tight')
         plt.close()
@@ -520,14 +530,13 @@ if __name__ == '__main__':
     ap.add_argument('--regions', required=True, help='bed file containing genomic region of interest')
     ap.add_argument('--threads', required=True, help='number of threads to process the data on; Default=8', default=1)
     ap.add_argument('--alignments', required=True, help='bam file containing read alignments; needs index files (.fai), can be generated with samtools index alignments.bam', nargs='+')
+    ap.add_argument('--o', required=True, help='path for output file')
     # ap.add_argument('--annotation', required=False,help='gtf file of genome feature annotations. Format should conatin gene_name "GENE_NAME"; gene_biotype "BIOTYPE";')
     # ap.add_argument('--scale', required=False,help='-sizefactors.txt file from tRAX. Can also generate a custom list')
-    ap.add_argument('--samples', required=False, help='samples.txt file from tRAX to group samples')
-    ap.add_argument('--o', required=True, help='path for output file')
-    ap.add_argument('--plot', required=False, help='whether or not to generate coverage plots for each of the features', action='store_true')
     ap.add_argument('--clipping', required=False,help='number of bases a read can extend beyond the feature start/end to be included in the analysis; default=0', default=0, type=int)
+    ap.add_argument('--samples', required=False, help='samples.txt file from tRAX to group samples')
+    ap.add_argument('--plot', required=False, help='whether or not to generate coverage plots for each of the features', action='store_true')
     args = ap.parse_args()
-
 
     startTime = datetime.now()
 
