@@ -1,4 +1,4 @@
-# tRNA Modification Analysis and Predictions (tMAP)
+# tRNA Modification Analysis and Predictions
 
 tMAP is an additional tool to extend the usage of the standard tRAX analysis pipeline. It can be used to determine potential modifcaiton-induced misincorporations from small RNA sequencing data and in some cases provide a probability of associated with a specfic modification.
 
