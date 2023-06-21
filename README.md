@@ -20,7 +20,7 @@ tMAP will work with any tRAX generated coverage file or the coverage file genera
 
 ### Metadata
 
-You will need to provide the meta-data associated with the samples if you want to group samples based on specific experimental conditions. To do this you can provide a [tRAX samples file](http://trna.ucsc.edu/tRAX/#step-3-analyze-sequencing-data-for-gene-expression) whitespace/.csv/.tsv file (`-s/--samples`) containing the sample names, sample groups, and path to fastq files. An example samples file is shown below:
+You will need to provide the meta-data associated with the samples if you want to group samples based on specific experimental conditions. To do this you can provide a [tRAX samples file](http://trna.ucsc.edu/tRAX/#step-3-analyze-sequencing-data-for-gene-expression) whitespace/.csv/.tsv file (`--samples`) containing the sample names, sample groups, and path to fastq files. An example samples file is shown below:
 
 ```tsv
 sample1 a /path/to/sample1.fastq.gz
@@ -29,12 +29,26 @@ sample3 b /path/to/sample3.fastq.gz
 sample4 b /path/to/sample4.fastq.gz
 ```
 
+You will need to provide the meta-data associated with the comparisons you want to perform between experimental conditions. To do this you can provide a [tRAX pairs file](http://trna.ucsc.edu/tRAX/#step-3-analyze-sequencing-data-for-gene-expression) whitespace/.csv/.tsv file (`--exppairs`) containing the sample names, sample groups, and path to fastq files. An example samples file is shown below:
+
+```tsv
+condition1 condition2
+condition1 condition3
+condition2 condition3
+```
+
 ## Usage
 
 ### Activating the environment
 
 ```bash
 conda activate tmap
+```
+
+### Accessing the help information
+
+```bash
+python tMAP.py --h
 ```
 
 ### Determining potential sites of base modifications present in tRNAs
