@@ -23,10 +23,10 @@ tMAP will work with any tRAX generated coverage file or the coverage file genera
 You will need to provide the meta-data associated with the samples if you want to group samples based on specific experimental conditions. To do this you can provide a [tRAX samples file](http://trna.ucsc.edu/tRAX/#step-3-analyze-sequencing-data-for-gene-expression) whitespace/.csv/.tsv file (`--samples`) containing the sample names, sample groups, and path to fastq files. An example samples file is shown below:
 
 ```tsv
-sample1 a /path/to/sample1.fastq.gz
-sample2 a /path/to/sample2.fastq.gz
-sample3 b /path/to/sample3.fastq.gz
-sample4 b /path/to/sample4.fastq.gz
+sample1 condition1 /path/to/sample1.fastq.gz
+sample2 condition1 /path/to/sample2.fastq.gz
+sample3 condition2 /path/to/sample3.fastq.gz
+sample4 condition2 /path/to/sample4.fastq.gz
 ```
 
 You will need to provide the meta-data associated with the comparisons you want to perform between experimental conditions. To do this you can provide a [tRAX pairs file](http://trna.ucsc.edu/tRAX/#step-3-analyze-sequencing-data-for-gene-expression) whitespace/.csv/.tsv file (`--exppairs`) containing the sample names, sample groups, and path to fastq files. An example samples file is shown below:
