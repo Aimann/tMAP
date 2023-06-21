@@ -53,7 +53,7 @@ python tMAP.py --h
 
 ### Determining potential sites of base modifications present in tRNAs
 
-![alt text](https://github.com/Aimannin/TRMT1/blob/images/mismatch_coverage_example.jpg?raw=true)
+![alt text](https://github.com/Aimannin/TRMT1/tree/version-1.0/images/mismatch_coverage_example.jpg?raw=true)
 
 The tMAP-getmismatches.py script can be used to identify potential sites of base modification present in tRNA sequencing data.
 
