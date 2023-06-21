@@ -53,16 +53,19 @@ python tMAP.py --h
 
 ### getmismatch -- Determining potential sites of base modifications present in tRNAs
 
-The tMAP-getmismatches.py script can be used to identify potential sites of base modification present in tRNA sequencing data.
+The getmismatch module can be used to identify potential sites of base modification present in tRNA sequencing data. Identification of potentially modified bases was performed by building on the Bayesian method for genomic variant calling (Li et al., 2008; Washburn et al., 2015) with a custom-designed prior on the % mismatches to account for sequencing errors. Pairwise comparisons of mismatch rates can be determined by providing a [tRAX-like](http://trna.ucsc.edu/tRAX/#step-3-analyze-sequencing-data-for-gene-expression) samples file as well as a pairs file. P-values are computed for each site using the T-test and adjusted p-values were determined using Benjamini/Hochberg multiple-test correction.
 
-```bash python tMAP.py
+```bash
+python tMAP.py \
 --cov <tRAX_coverage_file> \
 --o <output_file_prefix> \
 [(optional) --positions <list_of_sprinzl_positions> --exppairs <pairs.txt> --samples <samples.txt> --org <organism> --alpha <mismatch_pseudocounts> --beta <reference_pseudocounts> --editfrac <minumum_edit_fraction> --minreads <minimum_read_coverage> --multimapcutoff <percent_multimap_coverage> --predict]
 ```
 * `--cov` is the path to the tRAX coverage file you want to analyze modifications from; runname-coverage.txt.
 * `--o`  is the prefix for the output files.
+
 (optional flags)
+
 * `--positions` tRNA positions of interest. Can list multiple positions e.g. 9 26 32 34...
 * `--org` organism of interest (euk, bact, arch, mito); default='euk'.
 * `--alpha` pseudocounts to add to mismatch counts for beta function; default=0.
@@ -79,9 +82,9 @@ The tMAP-getmismatches.py script can be used to identify potential sites of base
 * `--predict` (in development) predict which base modification is present based on misincorporation signature. Model built using tRNA sequencing (OTTR-seq) data from various eukaryotic model organisms.
 
 
-### Getting isodecoder variation within an organism
+### align -- Getting isodecoder variation within an organism
 
-The tMAP-align.py script can be used to generate an excel-friendly alignment of tRNA isodecoders, the base-level varation exising amongst isoacceptor groups (ex. all Arg-TCT sequence variation), and the pairwise sequence differences between tRNA isodecoders.
+The align module can be used to generate an excel-friendly alignment of tRNA isodecoders, the base-level varation exising amongst isoacceptor groups (ex. all Arg-TCT sequence variation), and the pairwise sequence differences between tRNA isodecoders.
 
 ```bash
 python tMAP-align.py \
