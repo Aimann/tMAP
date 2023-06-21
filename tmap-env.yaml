@@ -1,4 +1,4 @@
-name: tmap-env-dev
+name: tmap-env
 channels:
   - conda-forge
   - bioconda
