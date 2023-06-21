@@ -51,36 +51,35 @@ conda activate tmap
 python tMAP.py --h
 ```
 
-### Determining potential sites of base modifications present in tRNAs
-
-![alt text](https://github.com/Aimannin/TRMT1/tree/version-1.0/images/mismatch_coverage_example.jpg?raw=true)
+### getmismatch -- Determining potential sites of base modifications present in tRNAs
 
 The tMAP-getmismatches.py script can be used to identify potential sites of base modification present in tRNA sequencing data.
 
-```bash
-python tMAP-getmismatches.py \
+```bash python tMAP.py
 --cov <tRAX_coverage_file> \
 --o <output_file_prefix> \
-[(optional) --org <organism> --alpha <mismatch_pseudocounts> --beta <reference_pseudocounts> --editfrac <minumum_edit_fraction> --minreads <minimum_read_coverage> --positions <list_of_sprinzl_positions> --multimapcutoff <percent_multimap_coverage> --exppairs <pairs.txt> --samples <samples.txt> --predict]
+[(optional) --positions <list_of_sprinzl_positions> --exppairs <pairs.txt> --samples <samples.txt> --org <organism> --alpha <mismatch_pseudocounts> --beta <reference_pseudocounts> --editfrac <minumum_edit_fraction> --minreads <minimum_read_coverage> --multimapcutoff <percent_multimap_coverage> --predict]
 ```
-* `--cov` is the path to the tRAX coverage file you want to analyse modifications from; runname-coverage.txt.
+* `--cov` is the path to the tRAX coverage file you want to analyze modifications from; runname-coverage.txt.
 * `--o`  is the prefix for the output files.
-* (optional flags)
+(optional flags)
 * `--positions` tRNA positions of interest. Can list multiple positions e.g. 9 26 32 34...
 * `--org` organism of interest (euk, bact, arch, mito); default='euk'.
 * `--alpha` pseudocounts to add to mismatch counts for beta function; default=0.
 * `--beta` pseudocounts to add to reference counts for beta function; default=0.
 * `--editfrac` minimum fraction of mismatched reads for beta function; default=0.05.
-* `--minreads` is the minumum number of read coverage of a base required to go into analysis; default=20.
-* `--multimapcutoff` Percent of multimapping reads covering a site to mark as artefact; default=20.
-* (optional flags; to determine differences in mismatch rates between all pairwise comparisons use these)
+* `--minreads` is the minimum number of read coverage of a base required to go into the analysis; default=5.
+* `--multimapcutoff` Percent of multimapping reads covering a site to mark as artifact; default=20.
+  
+(optional flags; to determine differences in mismatch rates between all pairwise comparisons, use these)
+  
 * `--exppairs` pairs.txt file from tRAX to perform pairwise comaprisons.
 * `--samples` samples.txt file from tRAX, or custom made as previously described to group biological replicates.
 * (optional flags (in development); to determine which base modification is present based on misincorporation signature)
 * `--predict` (in development) predict which base modification is present based on misincorporation signature. Model built using tRNA sequencing (OTTR-seq) data from various eukaryotic model organisms.
 
 
-### Getting isodecoder varation within an organism
+### Getting isodecoder variation within an organism
 
 The tMAP-align.py script can be used to generate an excel-friendly alignment of tRNA isodecoders, the base-level varation exising amongst isoacceptor groups (ex. all Arg-TCT sequence variation), and the pairwise sequence differences between tRNA isodecoders.
 
