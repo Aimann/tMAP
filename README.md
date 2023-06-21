@@ -53,10 +53,10 @@ python tMAP.py --h
 
 ### getmismatch -- Determining potential sites of base modifications present in tRNAs
 
-The getmismatch module can be used to identify potential sites of base modification present in tRNA sequencing data. Identification of potentially modified bases was performed by building on the Bayesian method for genomic variant calling (Li et al., 2008; Washburn et al., 2015) with a custom-designed prior on the % mismatches to account for sequencing errors. Pairwise comparisons of mismatch rates can be determined by providing a [tRAX-like](http://trna.ucsc.edu/tRAX/#step-3-analyze-sequencing-data-for-gene-expression) samples file as well as a pairs file. P-values are computed for each site using the T-test and adjusted p-values were determined using Benjamini/Hochberg multiple-test correction.
+The getmismatch module can be used to identify potential sites of base modification present in tRNA sequencing data. Identification of potentially modified bases was performed by building on the Bayesian method for genomic variant calling ([Li et al., 2008](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2577856/); [Washburn et al., 2015](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3959997/); [Deffit et al., 2017](https://elifesciences.org/articles/28625)) with a custom-designed prior on the % mismatches to account for sequencing errors. Pairwise comparisons of mismatch rates can be determined by providing a [tRAX-like](http://trna.ucsc.edu/tRAX/#step-3-analyze-sequencing-data-for-gene-expression) samples file as well as a pairs file. P-values are computed for each site using the T-test, and adjusted p-values were determined using Benjamini/Hochberg multiple-test correction.
 
 ```bash
-python tMAP.py \
+python tMAP.py getmismatch\
 --cov <tRAX_coverage_file> \
 --o <output_file_prefix> \
 [(optional) --positions <list_of_sprinzl_positions> --exppairs <pairs.txt> --samples <samples.txt> --org <organism> --alpha <mismatch_pseudocounts> --beta <reference_pseudocounts> --editfrac <minumum_edit_fraction> --minreads <minimum_read_coverage> --multimapcutoff <percent_multimap_coverage> --predict]
@@ -84,30 +84,28 @@ python tMAP.py \
 
 ### align -- Getting isodecoder variation within an organism
 
-The align module can be used to generate an excel-friendly alignment of tRNA isodecoders, the base-level varation exising amongst isoacceptor groups (ex. all Arg-TCT sequence variation), and the pairwise sequence differences between tRNA isodecoders.
+The align module can be used to generate an excel-friendly alignment of tRNA isodecoders, the base-level variation existing amongst isoacceptor groups (e.g., all Arg-TCT sequence variation), and the pairwise sequence differences between tRNA isodecoders (e.g. Arg-TCT-1 vs Arg-TCT-2)
 
 ```bash
-python tMAP-align.py \
---cov <tRAX_coverage_file> \
---alignments <dbname-trnaalign.stk> \
+python tMAP.py align \
+--stk <dbname-trnaalign.stk> \
 --o <output_file_prefix> \
-[(optional) --minreads <minimum_read_coverage> --org <organism> --plot]
+[(optional) --org <organism>]
 ```
 
-* `--cov` is the path to the tRAX coverage file you want to analyse modifications from.
-* `--alignments` is the path to the stockholm file containing the mature tRNA alignments from tRAX makedb.py; dbname-trnaalign.stk.
+* `--alignments` is the path to the Stockholm file containing the mature tRNA alignments from tRAX makedb.py; dbname-trnaalign.stk.
 * `--o`  is the prefix for the output files.
-* (optional flags)
-* `--minreads` is the minumum number of read coverage of a base required to go into analysis; default=20.
+  
+(optional flags)
+
 * `--org` organism of interest (euk, bact, arch, mito); default='euk'.
-<!-- * `--plot` whether or not to generate a bar plot showing the Sprinzl positions containing instances of isodecoder variation. -->
 
-### Getting base-resolution read coverage of user-defined features
+### bedregion -- Getting base-resolution read coverage of user-defined features
 
-The tMAP-bedcoverage.py script can be used to generate a tRAX-like coverage output file of user defined regions provided in bed format.
+The bedregion module can be used to generate a tRAX-like coverage output file of user-defined regions provided in bed format. Useful for looking at misincorporation data in any non-tRNA features like rRNA, miRNAs, snoRNAs, etc.
 
 ```bash
-python tMAP-bedcoverage.py \
+python tMAP.py bedregion \
 --fasta <genome.fa> \
 --regions <regions_of_interest.bed> \
 --alignments <sample1.bam> <sample2.bam> \
@@ -116,13 +114,15 @@ python tMAP-bedcoverage.py \
 ```
 
 * `--fasta` Genome fasta file; needs an index file (.fai), can be generated with samtools faidx fasta.fa.
-* `--regions` bed file containing genomic region of interest.
-* `--alignments` bam file(s) containing read alignments; needs index files (.fai), can be generated with samtools index alignments.bam. multiple bam files can be passed as follows; file1.bam file2.bam ...
+* `--regions` bed file containing genomic regions of interest. If using BED12 format with multiple exons also use the `--split` flag
+* `--alignments` bam file(s) containing read alignments; needs index files (.fai), can be generated with samtools index alignments.bam. Multiple bam files can be passed one after the other as follows; file1.bam file2.bam ...
 * `--o`  is the prefix for the output files.
-* (optional flags)
-* `--minreads` is the minumum number of read coverage of a base required to go into analysis; default=20.
-* `--clipping` umber of bases a read can extend beyond the feature start/end to be included in the analysis; default=0.
+  
+(optional flags)
+
+* * `--threads` the number of threads to process the data on; Default=1.
+* `--clipping` the number of bases a read can extend beyond the feature start/end to be included in the analysis; default=2.
 * `--samples` samples.txt file from tRAX, or custom made as previously described to group biological replicates.
 * `--org` organism of interest (euk, bact, arch, mito); default='euk'.
 * `--plot` whether or not to generate coverage plots for each of the features.
-* `--threads` number of threads to process the data on; Default=1.
+* `--split` whether or not using BED12 format; for transcripts with multiple exons will concatenate them together.
