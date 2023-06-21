@@ -1,7 +1,0 @@
-name: getmismatch
-channels:
-  - conda-forge
-  - bioconda
-dependencies:
-  - python=3.7
-  

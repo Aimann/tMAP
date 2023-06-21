@@ -1,0 +1,14 @@
+name: tmap-env-dev
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python
+  - seaborn
+  - matplotlib
+  - pandas
+  - numpy
+  - scipy
+  - pybedtools
+  - pysam
+  - joblib
